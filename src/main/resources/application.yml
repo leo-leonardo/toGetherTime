@@ -1,0 +1,11 @@
+server:
+  port: 8085
+
+spring:
+  datasource:
+    username: root
+    password: toGetherTime565
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/toGetherTime?serverTimezone=UTC
+mybatis:
+  mapper-locations: classpath:mapper/*.xml

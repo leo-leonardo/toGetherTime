@@ -4,8 +4,10 @@ server:
 spring:
   datasource:
     username: root
+    #到时候记得改密码
     password: toGetherTime565
     driver-class-name: com.mysql.cj.jdbc.Driver
+    #上线时需改成云数据库或本地数据库设置的地址
     url: jdbc:mysql://localhost:3306/toGetherTime?serverTimezone=UTC
 mybatis:
   mapper-locations: classpath:mapper/*.xml

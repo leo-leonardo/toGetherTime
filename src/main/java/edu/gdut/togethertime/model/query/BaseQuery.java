@@ -1,18 +1,11 @@
 package edu.gdut.togethertime.model.query;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class BaseQuery implements BaseQueryCheck {
-    private Long id;
     private Long userId;
     private String unionId;
     private String username;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     @Override
     public Long getUserId() {
@@ -47,8 +40,7 @@ public class BaseQuery implements BaseQueryCheck {
     @Override
     public String toString() {
         return "BaseQuery{" +
-                "id=" + id +
-                ", userId=" + userId +
+                "userId=" + userId +
                 ", unionId='" + unionId + '\'' +
                 ", username='" + username + '\'' +
                 '}';

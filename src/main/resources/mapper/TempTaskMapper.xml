@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.gdut.togethertime.mapper.TempTaskMapper">
+
+    <resultMap id="TaskResultMap" type="edu.gdut.togethertime.model.entity.TempTask">
+        <id property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="taskId" column="task_id"/>
+        <result property="taskName" column="task_name"/>
+        <result property="status" column="status"/>
+        <result property="level" column="level"/>
+        <result property="startTime" column="start_time"/>
+        <result property="endTime" column="end_time"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <sql id="TempTaskColumn">
+        id, user_id, task_id, task_name, `status`, `level`, start_time, end_time, create_time, update_time
+    </sql>
+
+    <sql id="POJOColumn">
+        user_id, task_id, task_name, `status`, `level`, start_time, end_time
+    </sql>
+
+    <select id="selectTempTaskById" resultMap="TaskResultMap" parameterType="java.lang.Long">
+        select <include refid="TempTaskColumn"/>
+        from `schedule_temp`
+        where id = #{id}
+    </select>
+
+    <select id="selectTempTaskByTaskId" resultMap="TaskResultMap" parameterType="java.lang.Long">
+        select <include refid="TempTaskColumn"/>
+        from `schedule_temp`
+        where task_id = #{taskId}
+    </select>
+
+    <select id="selectTempTaskByUserId" resultMap="TaskResultMap" parameterType="java.lang.Long">
+        select <include refid="TempTaskColumn"/>
+        from `schedule_temp`
+        where user_id = #{userId}
+    </select>
+
+    <select id="selectTempTaskByTaskName" resultMap="TaskResultMap" parameterType="java.lang.String">
+        select <include refid="TempTaskColumn"/>
+        from `schedule_temp`
+        where task_name like concat('%', #{taskName}, '%')
+    </select>
+
+    <insert id="insertTempTask" parameterType="edu.gdut.togethertime.model.entity.TempTask">
+        insert into `schedule_temp` (<include refid="POJOColumn"/>)
+        values (#{userId}, #{taskId}, #{taskName}, #{status}, #{level}, #{startTime}, #{endTime})
+    </insert>
+
+    <update id="updateTempTask" parameterType="edu.gdut.togethertime.model.entity.TempTask">
+        update `schedule_temp`
+        <set>
+            <if test="taskName != null">
+                task_name = #{taskName},
+            </if>
+            <if test="status != null">
+                `status` = #{status},
+            </if>
+            <if test="level != null">
+                `level` = #{level},
+            </if>
+            <if test="startTime != null">
+                start_time = #{startTime},
+            </if>
+            <if test="endTime != null">
+                end_time = #{endTime},
+            </if>
+        </set>
+        where id = #{id};
+    </update>
+
+    <delete id="deleteTempTaskByPOJO" parameterType="edu.gdut.togethertime.model.entity.TempTask">
+        delete from `schedule_temp`
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteTempTaskById" parameterType="java.lang.Long">
+        delete from `schedule_temp`
+        where id = #{id}
+    </delete>
+</mapper>

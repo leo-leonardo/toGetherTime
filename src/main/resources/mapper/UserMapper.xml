@@ -8,6 +8,7 @@
         <id property="id" column="id"/>
         <result column="username" property="username"/>
         <result column="unionid" property="unionId"/>
+        <result column="img_url" property="imgUrl"/>
         <result column="openid" property="openId"/>
         <result column="last_login_time" property="lastLoginTime"/>
         <result column="create_time" property="createTime"/>
@@ -15,7 +16,7 @@
     </resultMap>
 
     <sql id="UserColumn">
-        id, username, unionid, openid, last_login_time, create_time, update_time
+        id, username, unionid, img_url, openid, last_login_time, create_time, update_time
     </sql>
 
     <select id="selectLoginUser" resultMap="BaseResult">
@@ -48,8 +49,8 @@
     </delete>
 
     <insert id="registUser" parameterType="edu.gdut.togethertime.model.entity.User">
-        insert into `user`(username, unionid, openid, last_login_time)
-        values (#{username}, #{unionId}, #{openId}, #{lastLoginTime})
+        insert into `user`(username, unionid, img_url, openid, last_login_time)
+        values (#{username}, #{unionId}, #{imgUrl}, #{openId}, #{lastLoginTime})
     </insert>
 
     <update id="update" parameterType="edu.gdut.togethertime.model.entity.User">
@@ -57,6 +58,9 @@
         <set>
             <if test="username != null">
                 username = #{username},
+            </if>
+            <if test="imgUrl != null">
+                img_url = #{imgUrl},
             </if>
             <if test="lastLoginTime != null">
                 las_login_time = #{lastLoginTime},

@@ -3,9 +3,11 @@ package edu.gdut.togethertime.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import edu.gdut.togethertime.constant.WxConstant;
 import edu.gdut.togethertime.exception.ExceptionEnum;
+import edu.gdut.togethertime.mapper.UserInfoMapper;
 import edu.gdut.togethertime.mapper.UserMapper;
 import edu.gdut.togethertime.model.dto.UserDTO;
 import edu.gdut.togethertime.model.entity.User;
+import edu.gdut.togethertime.model.entity.UserInfo;
 import edu.gdut.togethertime.model.query.WxProgramLoginQuery;
 import edu.gdut.togethertime.service.LoginService;
 import edu.gdut.togethertime.utils.HttpUtils;
@@ -18,6 +20,8 @@ import java.time.LocalDateTime;
 public class LoginServiceImpl implements LoginService {
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private UserInfoMapper userInfoMapper;
 
     @Override
     public User login(WxProgramLoginQuery query) {
@@ -47,8 +51,12 @@ public class LoginServiceImpl implements LoginService {
                 newUser.setUsername(query.getUsername());
                 newUser.setUnionId(unionid);
                 newUser.setOpenId(openid);
+                newUser.setImgUrl(query.getImgUrl());
                 newUser.setLastLoginTime(LocalDateTime.now());
+                UserInfo userInfo = new UserInfo();
                 userMapper.registUser(newUser);
+                userInfo.setId(newUser.getId());
+
                 newUser = userMapper.selectUserByUnionId(unionid);
                 return newUser;
             } else {

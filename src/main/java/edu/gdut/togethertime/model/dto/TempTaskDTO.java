@@ -1,5 +1,6 @@
 package edu.gdut.togethertime.model.dto;
 
+import edu.gdut.togethertime.model.entity.TempTask;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.time.LocalDateTime;
@@ -11,12 +12,26 @@ public class TempTaskDTO {
     private Long taskId;
     @ApiModelProperty(value = "事项名", example = "我要学习")
     private String taskName;
-    @ApiModelProperty(value = "时间", example = "2020-12-25 10:10:10")
-    private LocalDateTime time;
+    @ApiModelProperty(value = "开始时间", example = "2020-12-25 10:10:10")
+    private LocalDateTime startTime;
+    @ApiModelProperty(value = "结束时间", example = "2020-12-25 10:10:10")
+    private LocalDateTime endTime;
     @ApiModelProperty(value = "事项重要等级", example = "1")
     private Integer level;
     @ApiModelProperty(value = "事项状态", example = "1")
     private Integer status;
+
+    public static TempTaskDTO castToTempTaskDTO(TempTask tempTask) {
+        TempTaskDTO tempTaskDTO = new TempTaskDTO();
+        tempTaskDTO.setUserId(tempTask.getUserId());
+        tempTaskDTO.setTaskId(tempTask.getTaskId());
+        tempTaskDTO.setTaskName(tempTask.getTaskName());
+        tempTaskDTO.setStartTime(tempTask.getStartTime());
+        tempTaskDTO.setEndTime(tempTask.getEndTime());
+        tempTaskDTO.setLevel(tempTask.getLevel());
+        tempTaskDTO.setStatus(tempTask.getStatus());
+        return tempTaskDTO;
+    }
 
     public Long getUserId() {
         return userId;
@@ -42,12 +57,20 @@ public class TempTaskDTO {
         this.taskName = taskName;
     }
 
-    public LocalDateTime getTime() {
-        return time;
+    public LocalDateTime getStartTime() {
+        return startTime;
     }
 
-    public void setTime(LocalDateTime time) {
-        this.time = time;
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
     }
 
     public Integer getLevel() {
@@ -72,7 +95,8 @@ public class TempTaskDTO {
                 "userId=" + userId +
                 ", taskId=" + taskId +
                 ", taskName='" + taskName + '\'' +
-                ", time=" + time +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
                 ", level=" + level +
                 ", status=" + status +
                 '}';

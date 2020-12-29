@@ -1,5 +1,6 @@
 package edu.gdut.togethertime.model.dto;
 
+import edu.gdut.togethertime.model.entity.WeeklyTask;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -16,6 +17,22 @@ public class WeeklyTaskDTO {
     private Integer dayOfWeek;
     @ApiModelProperty(value = "时间", example = "10:10:10")
     private LocalTime time;
+    @ApiModelProperty(value = "事项状态", example = "1")
+    private Integer status;
+    @ApiModelProperty(value = "紧急程度", example = "1")
+    private Integer level;
+
+    public static WeeklyTaskDTO castToWeeklyTaskDTO(WeeklyTask weeklyTask) {
+        WeeklyTaskDTO weeklyTaskDTO = new WeeklyTaskDTO();
+        weeklyTaskDTO.setUserId(weeklyTask.getUserId());
+        weeklyTaskDTO.setTaskId(weeklyTask.getTaskId());
+        weeklyTaskDTO.setTaskName(weeklyTask.getTaskName());
+        weeklyTaskDTO.setDayOfWeek(weeklyTask.getStartDay());
+        weeklyTaskDTO.setTime(weeklyTask.getStartTime());
+        weeklyTaskDTO.setStatus(weeklyTask.getStatus());
+        weeklyTaskDTO.setLevel(weeklyTask.getLevel());
+        return weeklyTaskDTO;
+    }
 
     public Long getUserId() {
         return userId;
@@ -57,6 +74,22 @@ public class WeeklyTaskDTO {
         this.time = time;
     }
 
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public Integer getLevel() {
+        return level;
+    }
+
+    public void setLevel(Integer level) {
+        this.level = level;
+    }
+
     @Override
     public String toString() {
         return "WeeklyTaskDTO{" +
@@ -65,6 +98,8 @@ public class WeeklyTaskDTO {
                 ", taskName='" + taskName + '\'' +
                 ", dayOfWeek=" + dayOfWeek +
                 ", time=" + time +
+                ", status=" + status +
+                ", level=" + level +
                 '}';
     }
 }

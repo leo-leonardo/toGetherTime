@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.gdut.togethertime.mapper.UserInfoMapper">
+    <resultMap id="UserInfoMapper" type="edu.gdut.togethertime.model.entity.UserInfo">
+        <id property="id" column="id"/>
+        <result property="level" column="level"/>
+        <result property="completeTimes" column="complete_times"/>
+        <result property="attentTime" column="attent_time"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <sql id="BaseUserInfo">
+        id, `level`, complete_times, attent_time
+    </sql>
+
+    <sql id="AllUserInfo">
+        id, `level`, complte_times, attent_time, create_time, update_time
+    </sql>
+
+    <select id="selectUserInfoById" resultMap="UserInfoMapper" parameterType="java.lang.Long">
+        select <include refid="BaseUserInfo"/>
+        from user_info
+        where id = #{id}
+    </select>
+
+    <insert id="insertUserInfo" parameterType="edu.gdut.togethertime.model.entity.UserInfo">
+        insert into `user_info`(id)
+        values (#{id})
+    </insert>
+</mapper>

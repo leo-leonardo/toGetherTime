@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 public class User {
     private Long id;
     private String username;
+    private String imgUrl;
     private String unionId;
     private String openId;
     private LocalDateTime lastLoginTime;
@@ -25,6 +26,14 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 
     public String getUnionId() {
@@ -72,6 +81,7 @@ public class User {
         return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
+                ", imgUrl='" + imgUrl + '\'' +
                 ", unionId='" + unionId + '\'' +
                 ", openId='" + openId + '\'' +
                 ", lastLoginTime=" + lastLoginTime +

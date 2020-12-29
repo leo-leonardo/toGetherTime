@@ -5,8 +5,10 @@ import io.swagger.annotations.ApiModelProperty;
 import javax.validation.constraints.NotEmpty;
 
 public class WxProgramLoginQuery {
-    @ApiModelProperty(value = "用户名，通过wx.login取得的名字", required = true)
+    @ApiModelProperty(value = "用户名，通过wx.login取得的名字", example = "leo", required = true)
     private String username;
+    @ApiModelProperty(value = "用户微信头像", example = "http://i1.hdslb.com/bfs/face/98cea5dadb7e363847e332ad41b6995c081177af.jpg_64x64.jpg", required = true)
+    private String imgUrl;
     @ApiModelProperty(value = "加密的用户信息", required = true)
     @NotEmpty(message = "encryptedData不能为空")
     private String encryptedData;
@@ -49,10 +51,19 @@ public class WxProgramLoginQuery {
         this.username = username;
     }
 
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
     @Override
     public String toString() {
         return "WxProgramLoginQuery{" +
                 "username='" + username + '\'' +
+                ", imgUrl='" + imgUrl + '\'' +
                 ", encryptedData='" + encryptedData + '\'' +
                 ", iv='" + iv + '\'' +
                 ", code='" + code + '\'' +

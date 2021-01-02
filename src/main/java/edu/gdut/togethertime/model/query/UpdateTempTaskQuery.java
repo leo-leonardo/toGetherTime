@@ -13,9 +13,9 @@ public class UpdateTempTaskQuery extends BaseQuery {
     private Long taskId;
     @ApiModelProperty(value = "事项名", example = "我要休息", required = true)
     private String taskName;
-    @ApiModelProperty(value = "事项状态", example = "1", required = true)
+    @ApiModelProperty(value = "状态：1-还没完成，2-完成了", example = "1", required = true)
     private Integer status;
-    @ApiModelProperty(value = "紧急程度", example = "1", required = true)
+    @ApiModelProperty(value = "重要程度：1-紧急重要，2-紧急不重要，3-重要不紧急，4-不紧急不重要", example = "1", required = true)
     private Integer level;
     @ApiModelProperty(value = "开始时间", example = "2000-01-01 00:00:00")
     private LocalDateTime startTime;

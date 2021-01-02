@@ -24,14 +24,14 @@ public class UserCheckAOP {
     public void userPointcut(BaseQueryCheck query) {
     }
 
-    @Before("userPointcut(query)")
+    @Before(value = "userPointcut(query)", argNames = "query")
     public void userCheck(BaseQueryCheck query) {
         HttpServletRequest httpServletRequest = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         ServletWebRequest servletWebRequest = new ServletWebRequest(httpServletRequest);
 
         //在filter中设置请求的用户信息，此处检查
-        Long userId = (Long) servletWebRequest.getAttribute("userId", RequestAttributes.SCOPE_REQUEST);
-        String username = (String) servletWebRequest.getAttribute("username", RequestAttributes.SCOPE_REQUEST);
+//        Long userId = (Long) servletWebRequest.getAttribute("userId", RequestAttributes.SCOPE_REQUEST);
+//        String username = (String) servletWebRequest.getAttribute("username", RequestAttributes.SCOPE_REQUEST);
 
         String log = "接受请求：\n" +
                 "\t请求地址：\n\t\t" + httpServletRequest.getRemoteHost() + "/" + httpServletRequest.getRemoteAddr() + "\n" +
@@ -40,14 +40,14 @@ public class UserCheckAOP {
                 "\t请求协议：\n\t\t" + httpServletRequest.getProtocol();
         LOGGER.info(log);
 
-        if (userId == null) {
-            throw ExceptionEnum.exception(ExceptionEnum.AUTH_ERROR);
-        }
-        if (username == null) {
-            throw ExceptionEnum.exception(ExceptionEnum.AUTH_ERROR);
-        }
-
-        query.setUserId(userId);
-        query.setUsername(username);
+//        if (userId == null) {
+//            throw ExceptionEnum.exception(ExceptionEnum.AUTH_ERROR);
+//        }
+//        if (username == null) {
+//            throw ExceptionEnum.exception(ExceptionEnum.AUTH_ERROR);
+//        }
+//
+//        query.setUserId(userId);
+//        query.setUsername(username);
     }
 }

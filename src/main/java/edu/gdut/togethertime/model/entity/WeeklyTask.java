@@ -1,11 +1,9 @@
 package edu.gdut.togethertime.model.entity;
 
-import io.swagger.models.auth.In;
-
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-public class WeeklyTask {
+public class WeeklyTask implements TaskDTOInterface {
     private Long id;
     private Long userId;
     private Long taskId;
@@ -16,6 +14,10 @@ public class WeeklyTask {
     private LocalTime startTime;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
+
+    public WeeklyTask() {
+
+    }
 
     public WeeklyTask(WeeklyTaskBuilder builder) {
         this.userId = builder.userId;

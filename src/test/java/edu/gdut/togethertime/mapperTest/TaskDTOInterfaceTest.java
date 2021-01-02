@@ -9,14 +9,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 //数据库测试事务回滚
 @Transactional
-public class TaskTest {
+public class TaskDTOInterfaceTest {
     @Autowired
     private TempTaskMapper tempTaskMapper;
     @Autowired

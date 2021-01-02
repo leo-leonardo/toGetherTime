@@ -1,7 +1,6 @@
 package edu.gdut.togethertime.model.dto;
 
 import edu.gdut.togethertime.model.entity.WeeklyTask;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.time.LocalTime;
@@ -92,7 +91,7 @@ public class WeeklyTaskDTO {
 
     @Override
     public String toString() {
-        return "WeeklyTaskDTO{" +
+        return "WeeklyTask{" +
                 "userId=" + userId +
                 ", taskId=" + taskId +
                 ", taskName='" + taskName + '\'' +

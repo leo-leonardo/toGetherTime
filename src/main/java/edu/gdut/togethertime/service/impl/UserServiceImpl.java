@@ -5,11 +5,10 @@ import edu.gdut.togethertime.constant.WxConstant;
 import edu.gdut.togethertime.exception.ExceptionEnum;
 import edu.gdut.togethertime.mapper.UserInfoMapper;
 import edu.gdut.togethertime.mapper.UserMapper;
-import edu.gdut.togethertime.model.dto.UserDTO;
 import edu.gdut.togethertime.model.entity.User;
 import edu.gdut.togethertime.model.entity.UserInfo;
 import edu.gdut.togethertime.model.query.WxProgramLoginQuery;
-import edu.gdut.togethertime.service.LoginService;
+import edu.gdut.togethertime.service.UserService;
 import edu.gdut.togethertime.utils.HttpUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +16,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 
 @Service
-public class LoginServiceImpl implements LoginService {
+public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
     @Autowired
@@ -33,15 +32,20 @@ public class LoginServiceImpl implements LoginService {
 
         //2.作为参数请求给wx登录接口
         String url = String.format(WxConstant.LOGIN_URL, WxConstant.APPID, WxConstant.APP_SECRET, code);
+        System.out.println(url);
         String response = HttpUtils.get(url);
+        System.out.println(response);
         JSONObject session = (JSONObject) JSONObject.parse(response);
 
         //3.设置登录态
         String openid = session.getString("openid");
         String unionid = session.getString("unionid");
 
-        assert openid != null && unionid != null;
-        User user = userMapper.selectUserByUnionId(unionid);
+        if (openid == null) {
+            throw ExceptionEnum.exception(ExceptionEnum.PARAM_ERROR);
+        }
+        User user = null;
+        if (unionid != null) user = userMapper.selectUserByUnionId(unionid);
         if (user == null) {
             //unionid找不到，用openid找
             user = userMapper.selectUserByOpenId(openid);
@@ -62,13 +66,22 @@ public class LoginServiceImpl implements LoginService {
             } else {
                 //openid找到了
                 user.setLastLoginTime(LocalDateTime.now());
+                user.setUsername(query.getUsername());
+                user.setImgUrl(query.getImgUrl());
                 userMapper.update(user);
             }
         } else {
             //unionid找到了
             user.setLastLoginTime(LocalDateTime.now());
+            user.setUsername(query.getUsername());
+            user.setImgUrl(query.getImgUrl());
             userMapper.update(user);
         }
         return user;
+    }
+
+    @Override
+    public Boolean checkUserIfExists(Long userId) {
+        return userMapper.selectUserById(userId) != null;
     }
 }

@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiOperation;
 public class BaseQuery implements BaseQueryCheck {
     @ApiModelProperty(value = "用户id", example = "1", required = true)
     private Long userId;
-    @ApiModelProperty(value = "用户unionId")
+    @ApiModelProperty(value = "用户unionId", example = "不用带上")
     private String unionId;
     @ApiModelProperty(value = "用户名，注册和登录时带上", example = "Leo")
     private String username;

@@ -1,7 +1,8 @@
 package edu.gdut.togethertime.service;
 
+import edu.gdut.togethertime.model.entity.*;
+import edu.gdut.togethertime.model.entity.TaskDTOInterface;
 import edu.gdut.togethertime.model.entity.TempTask;
-import edu.gdut.togethertime.model.entity.WeeklyTask;
 import edu.gdut.togethertime.model.query.CreateTempTaskQuery;
 import edu.gdut.togethertime.model.query.CreateWeeklyTaskQuery;
 import edu.gdut.togethertime.model.query.UpdateTempTaskQuery;
@@ -24,5 +25,6 @@ public interface TaskService {
 
     //common
     int deleteTaskByTaskId(Long taskId);
+    TaskDTO completeTask(TaskDTOInterface taskDTOInterface);
 
 }

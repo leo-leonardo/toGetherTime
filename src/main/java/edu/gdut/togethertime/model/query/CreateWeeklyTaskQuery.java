@@ -7,9 +7,9 @@ import java.time.LocalTime;
 public class CreateWeeklyTaskQuery extends BaseQuery {
     @ApiModelProperty(value = "事项名", example = "我要学习")
     private String taskName;
-    @ApiModelProperty(value = "状态", example = "1")
+    @ApiModelProperty(value = "状态：1-还没完成，2-完成了", example = "1")
     private Integer status;
-    @ApiModelProperty(value = "紧急程度", example = "1")
+    @ApiModelProperty(value = "重要程度：1-紧急重要，2-紧急不重要，3-重要不紧急，4-不紧急不重要", example = "1")
     private Integer level;
     @ApiModelProperty(value = "星期", example = "1", allowableValues = "{1,2,3,4,5,6,7}")
     private Integer startDay;

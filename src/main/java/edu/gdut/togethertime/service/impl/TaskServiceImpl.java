@@ -1,7 +1,9 @@
 package edu.gdut.togethertime.service.impl;
 
+import edu.gdut.togethertime.exception.ExceptionEnum;
 import edu.gdut.togethertime.mapper.TempTaskMapper;
 import edu.gdut.togethertime.mapper.WeeklyTaskMapper;
+import edu.gdut.togethertime.model.entity.*;
 import edu.gdut.togethertime.model.entity.TempTask;
 import edu.gdut.togethertime.model.entity.WeeklyTask;
 import edu.gdut.togethertime.model.query.CreateTempTaskQuery;
@@ -161,5 +163,21 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public WeeklyTask getWeeklyTaskByTaskId(Long taskId) {
         return weeklyTaskMapper.selectWeeklyTaskByTaskId(taskId);
+    }
+
+    @Override
+    public TaskDTO completeTask(TaskDTOInterface taskDTOInterface) {
+        taskDTOInterface.setStatus(2);
+        if (!checkIfExistsTaskId(taskDTOInterface.getTaskId())) {
+            throw ExceptionEnum.exception(ExceptionEnum.TASK_NOT_EXIST);
+        }
+        if (tempTaskMapper.selectTempTaskByTaskId(taskDTOInterface.getTaskId()) != null) {
+            //传入事项是临时事项
+            tempTaskMapper.updateTempTask((TempTask) taskDTOInterface);
+            return new TaskDTO(1, taskDTOInterface);
+        } else {
+            weeklyTaskMapper.updateWeeklyTask((WeeklyTask) taskDTOInterface);
+            return new TaskDTO(2, taskDTOInterface);
+        }
     }
 }

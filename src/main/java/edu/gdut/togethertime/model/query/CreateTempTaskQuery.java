@@ -7,9 +7,9 @@ import java.time.LocalDateTime;
 public class CreateTempTaskQuery extends BaseQuery {
     @ApiModelProperty(value = "事项名", example = "我要学习")
     private String taskName;
-    @ApiModelProperty(value = "状态", example = "1")
+    @ApiModelProperty(value = "状态：1-还没完成，2-完成了", example = "1")
     private Integer status;
-    @ApiModelProperty(value = "重要程度", example = "1")
+    @ApiModelProperty(value = "重要程度：1-紧急重要，2-紧急不重要，3-重要不紧急，4-不紧急不重要", example = "1")
     private Integer level;
     @ApiModelProperty(value = "开始时间", example = "2020-12-25 10:10:10")
     private LocalDateTime startTime;

@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 
 @SpringBootTest
 @Transactional
-public class TaskServiceTest {
+public class TaskDTOInterfaceServiceTest {
     @Autowired
     private TaskService taskService;
 

@@ -50,7 +50,7 @@
     </select>
 
     <insert id="insertTempTask" parameterType="edu.gdut.togethertime.model.entity.TempTask">
-        insert into `schedule_temp` (<include refid="POJOColumn"/>)
+        insert into `schedule_temp` (user_id, task_id, task_name, `status`, `level`, start_time, end_time)
         values (#{userId}, #{taskId}, #{taskName}, #{status}, #{level}, #{startTime}, #{endTime})
     </insert>
 

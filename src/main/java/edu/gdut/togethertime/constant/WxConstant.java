@@ -24,7 +24,7 @@ public class WxConstant {
     /**
      * AppId与秘钥，上传时注意不要泄露
      */
-    public static final String APPID = "";
-    public static final String APP_SECRET = "";
+    public static final String APPID = "wx46c738c030bd72c6";
+    public static final String APP_SECRET = "c6fcb7779edf525d98623362c007456c";
 
 }

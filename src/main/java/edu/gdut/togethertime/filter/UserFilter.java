@@ -14,29 +14,30 @@ public class UserFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-        if (httpServletRequest.getRequestURI().equals("/user/login")) {
-            doFilter(request, response, chain);
-        }
-        String authorization = httpServletRequest.getHeader("Authorization");
-
-        if (authorization == null) {
-            throw ExceptionEnum.exception(ExceptionEnum.AUTH_ERROR);
-        }
-        //GDUT ToGetherTime name,userId
-        Pattern pattern = Pattern.compile("^(GDUT){1} (ToGetherTime){1} .+");
-        Matcher matcher = pattern.matcher(authorization);
-        if (!matcher.matches()) {
-            throw ExceptionEnum.exception(ExceptionEnum.AUTH_ERROR);
-        }
-        String attr = authorization.substring(18);
-
-        int position = attr.indexOf(".");
-        String username = attr.substring(0, position);
-        String userId = attr.substring(position + 1);
-
-        httpServletRequest.setAttribute("userId", userId);
-        httpServletRequest.setAttribute("username", username);
-        doFilter(request, response, chain);
+//        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+//        if (httpServletRequest.getRequestURI().equals("/user/login")) {
+//            doFilter(request, response, chain);
+//        }
+//        //前端人员不会，暂不使用
+//        String authorization = httpServletRequest.getHeader("Authorization");
+//
+//        if (authorization == null) {
+//            throw ExceptionEnum.exception(ExceptionEnum.AUTH_ERROR);
+//        }
+//        //GDUT ToGetherTime name,userId
+//        Pattern pattern = Pattern.compile("^(GDUT){1} (ToGetherTime){1} .+");
+//        Matcher matcher = pattern.matcher(authorization);
+//        if (!matcher.matches()) {
+//            throw ExceptionEnum.exception(ExceptionEnum.AUTH_ERROR);
+//        }
+//        String attr = authorization.substring(18);
+//
+//        int position = attr.indexOf(".");
+//        String username = attr.substring(0, position);
+//        String userId = attr.substring(position + 1);
+//
+//        httpServletRequest.setAttribute("userId", userId);
+//        httpServletRequest.setAttribute("username", username);
+//        doFilter(request, response, chain);
     }
 }

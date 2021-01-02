@@ -1,10 +1,8 @@
 package edu.gdut.togethertime.model.entity;
 
-import javafx.util.Builder;
-
 import java.time.LocalDateTime;
 
-public class TempTask {
+public class TempTask implements TaskDTOInterface {
     private Long id;
     private Long userId;
     private Long taskId;
@@ -92,6 +90,7 @@ public class TempTask {
     public Long getTaskId() {
         return taskId;
     }
+
 
     public void setTaskId(Long taskId) {
         this.taskId = taskId;

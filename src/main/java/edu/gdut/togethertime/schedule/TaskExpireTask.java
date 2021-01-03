@@ -10,7 +10,7 @@ public class TaskExpireTask {
     @Autowired
     private TaskService taskService;
 
-    @Scheduled(cron = "0 * * * * * ?")
+    @Scheduled(cron = "0 * * * * ?")
     public void updateTaskStatus() {
         taskService.expireTask();
     }

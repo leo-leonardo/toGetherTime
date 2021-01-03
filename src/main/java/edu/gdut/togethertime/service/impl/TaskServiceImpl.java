@@ -212,7 +212,7 @@ public class TaskServiceImpl implements TaskService {
         LocalDateTime current = LocalDateTime.now();
         Integer count = 0;
         for (TempTask tempTask : tempTaskMapper.selectAllTempTask()) {
-            if (current.isAfter(tempTask.getEndTime())) {
+            if (current.isAfter(tempTask.getStartTime())) {
                 //已过期
                 tempTask.setStatus(3);
                 count += tempTaskMapper.updateTempTask(tempTask);

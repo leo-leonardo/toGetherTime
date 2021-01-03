@@ -9,6 +9,7 @@
         <result property="userId" column="user_id"/>
         <result property="taskId" column="task_id"/>
         <result property="taskName" column="task_name"/>
+        <result property="ifPrivate" column="if_private"/>
         <result property="status" column="status"/>
         <result property="level" column="level"/>
         <result property="startTime" column="start_time"/>
@@ -18,11 +19,11 @@
     </resultMap>
 
     <sql id="TempTaskColumn">
-        id, user_id, task_id, task_name, `status`, `level`, start_time, end_time, create_time, update_time
+        id, user_id, task_id, task_name, `status`, `level`, start_time, end_time, create_time, update_time, if_private
     </sql>
 
     <sql id="POJOColumn">
-        user_id, task_id, task_name, `status`, `level`, start_time, end_time
+        user_id, task_id, task_name, `status`, `level`, start_time, end_time, if_private
     </sql>
 
     <select id="selectTempTaskById" resultMap="TaskResultMap" parameterType="java.lang.Long">
@@ -49,9 +50,20 @@
         where task_name like concat('%', #{taskName}, '%')
     </select>
 
+    <select id="selectAllTempTask" resultMap="TaskResultMap">
+        select <include refid="TempTaskColumn"/>
+        from schedule_temp;
+    </select>
+
+    <select id="selectTempTask" resultMap="TaskResultMap">
+        select <include refid="TempTaskColumn"/>
+        from schedule_temp
+        where ${column} = #{value}
+    </select>
+
     <insert id="insertTempTask" parameterType="edu.gdut.togethertime.model.entity.TempTask">
-        insert into `schedule_temp` (user_id, task_id, task_name, `status`, `level`, start_time, end_time)
-        values (#{userId}, #{taskId}, #{taskName}, #{status}, #{level}, #{startTime}, #{endTime})
+        insert into `schedule_temp` (user_id, task_id, task_name, `status`, `level`, start_time, end_time, if_private)
+        values (#{userId}, #{taskId}, #{taskName}, #{status}, #{level}, #{startTime}, #{endTime}, #{ifPrivate})
     </insert>
 
     <update id="updateTempTask" parameterType="edu.gdut.togethertime.model.entity.TempTask">
@@ -72,6 +84,9 @@
             <if test="endTime != null">
                 end_time = #{endTime},
             </if>
+            <if test="ifPrivate != null">
+                if_private = #{ifPrivate},
+            </if>
         </set>
         where id = #{id};
     </update>
@@ -85,4 +100,11 @@
         delete from `schedule_temp`
         where id = #{id}
     </delete>
+
+    <select id="selectTempTaskByDate" parameterType="java.time.LocalDate" resultMap="TaskResultMap">
+        select <include refid="TempTaskColumn"/>
+        from `schedule_temp`
+        where date_format(start_time, '%Y-%m-%d') = date_format(#{startTime}, '%Y-%m-%d')
+            and user_id = #{userId}
+    </select>
 </mapper>

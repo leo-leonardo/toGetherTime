@@ -1,13 +1,16 @@
 package edu.gdut.togethertime.mapperTest;
 
+import edu.gdut.togethertime.controller.TaskController;
 import edu.gdut.togethertime.mapper.TempTaskMapper;
 import edu.gdut.togethertime.mapper.WeeklyTaskMapper;
 import edu.gdut.togethertime.model.entity.TempTask;
+import edu.gdut.togethertime.model.query.GetTaskQuery;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -20,6 +23,8 @@ public class TaskDTOInterfaceTest {
     private TempTaskMapper tempTaskMapper;
     @Autowired
     private WeeklyTaskMapper weeklyTaskMapper;
+    @Autowired
+    private TaskController controller;
 
     @Test
     void testInsertTempTask() {
@@ -53,5 +58,20 @@ public class TaskDTOInterfaceTest {
         tempTask.setTaskName("new test");
         System.out.println(tempTaskMapper.updateTempTask(tempTask));
 
+    }
+
+    @Test
+    void testT() {
+        GetTaskQuery query = new GetTaskQuery();
+        query.setUserId(1L);
+        query.setTaskType("ALL");
+        System.out.println(controller.getTask(query));
+    }
+
+    @Test
+    void testGetTaskByDate() {
+        GetTaskQuery query = new GetTaskQuery();
+        query.setDate(LocalDate.of(2020, 12, 30));
+        System.out.println(controller.getTaskByDate(query));
     }
 }

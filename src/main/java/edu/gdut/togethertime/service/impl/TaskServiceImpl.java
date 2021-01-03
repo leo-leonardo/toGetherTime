@@ -3,7 +3,8 @@ package edu.gdut.togethertime.service.impl;
 import edu.gdut.togethertime.exception.ExceptionEnum;
 import edu.gdut.togethertime.mapper.TempTaskMapper;
 import edu.gdut.togethertime.mapper.WeeklyTaskMapper;
-import edu.gdut.togethertime.model.entity.*;
+import edu.gdut.togethertime.model.entity.TaskDTO;
+import edu.gdut.togethertime.model.entity.TaskDTOInterface;
 import edu.gdut.togethertime.model.entity.TempTask;
 import edu.gdut.togethertime.model.entity.WeeklyTask;
 import edu.gdut.togethertime.model.query.CreateTempTaskQuery;
@@ -18,6 +19,8 @@ import org.springframework.stereotype.Service;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +40,7 @@ public class TaskServiceImpl implements TaskService {
                 .level(query.getLevel())
                 .startTime(query.getStartTime())
                 .endTime(query.getEndTime())
+                .ifPrivate(query.getIfPrivate())
                 .taskId(RandomUtils.randomId()));
         if (checkIfExistsTaskId(task.getTaskId())) {
             tempTaskMapper.insertTempTask(task);
@@ -65,6 +69,7 @@ public class TaskServiceImpl implements TaskService {
                 .status(query.getStatus())
                 .level(query.getLevel())
                 .startTime(query.getStartTime())
+                .ifPrivate(query.getIfPrivate())
                 .startDay(query.getStartDay())
                 .taskId(RandomUtils.randomId()));
 
@@ -179,5 +184,40 @@ public class TaskServiceImpl implements TaskService {
             weeklyTaskMapper.updateWeeklyTask((WeeklyTask) taskDTOInterface);
             return new TaskDTO(2, taskDTOInterface);
         }
+    }
+
+    @Override
+    public List<TaskDTOInterface> getTaskByDate(LocalDate date, Long userId) {
+        List<TaskDTOInterface> taskList = new ArrayList();
+        System.out.println(date);
+        taskList.addAll(tempTaskMapper.selectTempTaskByDate(date, userId));
+        taskList.addAll(weeklyTaskMapper.selectWeeklyTaskByDate(date, userId));
+        return taskList;
+    }
+
+    @Override
+    public List<TaskDTO> getAllTask() {
+        List<TaskDTO> taskDTOInterfaceList = new ArrayList<>();
+        for (TempTask tempTask : tempTaskMapper.selectAllTempTask()) {
+            taskDTOInterfaceList.add(new TaskDTO(1, tempTask));
+        }
+        for (WeeklyTask weeklyTask : weeklyTaskMapper.selectAllWeeklyTask()) {
+            taskDTOInterfaceList.add(new TaskDTO(2, weeklyTask));
+        }
+        return taskDTOInterfaceList;
+    }
+
+    @Override
+    public Integer expireTask() {
+        LocalDateTime current = LocalDateTime.now();
+        Integer count = 0;
+        for (TempTask tempTask : tempTaskMapper.selectAllTempTask()) {
+            if (current.isAfter(tempTask.getEndTime())) {
+                //已过期
+                tempTask.setStatus(3);
+                count += tempTaskMapper.updateTempTask(tempTask);
+            }
+        }
+        return count;
     }
 }

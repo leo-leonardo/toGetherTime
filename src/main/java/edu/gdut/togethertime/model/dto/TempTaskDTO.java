@@ -16,6 +16,8 @@ public class TempTaskDTO {
     private LocalDateTime startTime;
     @ApiModelProperty(value = "结束时间", example = "2020-12-25 10:10:10")
     private LocalDateTime endTime;
+    @ApiModelProperty(value = "是否私人：1-私人，2-公开", example = "1")
+    private Integer ifPrivate;
     @ApiModelProperty(value = "事项重要等级", example = "1")
     private Integer level;
     @ApiModelProperty(value = "事项状态", example = "1")
@@ -29,6 +31,7 @@ public class TempTaskDTO {
         tempTaskDTO.setStartTime(tempTask.getStartTime());
         tempTaskDTO.setEndTime(tempTask.getEndTime());
         tempTaskDTO.setLevel(tempTask.getLevel());
+        tempTaskDTO.setIfPrivate(tempTask.getIfPrivate());
         tempTaskDTO.setStatus(tempTask.getStatus());
         return tempTaskDTO;
     }
@@ -89,6 +92,14 @@ public class TempTaskDTO {
         this.status = status;
     }
 
+    public Integer getIfPrivate() {
+        return ifPrivate;
+    }
+
+    public void setIfPrivate(Integer ifPrivate) {
+        this.ifPrivate = ifPrivate;
+    }
+
     @Override
     public String toString() {
         return "TempTaskDTO{" +
@@ -97,6 +108,7 @@ public class TempTaskDTO {
                 ", taskName='" + taskName + '\'' +
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +
+                ", ifPrivate=" + ifPrivate +
                 ", level=" + level +
                 ", status=" + status +
                 '}';

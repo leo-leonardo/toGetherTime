@@ -9,6 +9,7 @@ public class WeeklyTask implements TaskDTOInterface {
     private Long taskId;
     private String taskName;
     private Integer level;
+    private Integer ifPrivate;
     private Integer status;
     private Integer startDay;
     private LocalTime startTime;
@@ -25,6 +26,7 @@ public class WeeklyTask implements TaskDTOInterface {
         this.taskName = builder.taskName;
         this.level = builder.level;
         this.status = builder.status;
+        this.ifPrivate = builder.ifPrivate;
         this.startDay = builder.startDay;
         this.startTime = builder.startTime;
     }
@@ -38,6 +40,7 @@ public class WeeklyTask implements TaskDTOInterface {
         private Long taskId;
         private String taskName;
         private Integer level;
+        private Integer ifPrivate;
         private Integer status;
         private Integer startDay;
         private LocalTime startTime;
@@ -68,6 +71,10 @@ public class WeeklyTask implements TaskDTOInterface {
         }
         public WeeklyTaskBuilder startTime(LocalTime startTime) {
             this.startTime = startTime;
+            return this;
+        }
+        public WeeklyTaskBuilder ifPrivate(Integer ifPrivate) {
+            this.ifPrivate = ifPrivate;
             return this;
         }
     }
@@ -102,6 +109,14 @@ public class WeeklyTask implements TaskDTOInterface {
 
     public void setTaskName(String taskName) {
         this.taskName = taskName;
+    }
+
+    public Integer getIfPrivate() {
+        return ifPrivate;
+    }
+
+    public void setIfPrivate(Integer ifPrivate) {
+        this.ifPrivate = ifPrivate;
     }
 
     public Integer getLevel() {
@@ -160,6 +175,7 @@ public class WeeklyTask implements TaskDTOInterface {
                 ", taskId=" + taskId +
                 ", taskName='" + taskName + '\'' +
                 ", level=" + level +
+                ", ifPrivate=" + ifPrivate +
                 ", status=" + status +
                 ", startDay=" + startDay +
                 ", startTime=" + startTime +

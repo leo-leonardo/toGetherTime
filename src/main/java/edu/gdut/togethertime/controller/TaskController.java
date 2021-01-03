@@ -2,6 +2,7 @@ package edu.gdut.togethertime.controller;
 
 import edu.gdut.togethertime.exception.ExceptionEnum;
 import edu.gdut.togethertime.model.dto.TempTaskDTO;
+import edu.gdut.togethertime.model.dto.WeeklyTaskDTO;
 import edu.gdut.togethertime.model.entity.TaskDTO;
 import edu.gdut.togethertime.model.entity.TaskDTOInterface;
 import edu.gdut.togethertime.model.entity.TempTask;
@@ -26,6 +27,12 @@ public class TaskController {
     @Autowired
     private UserService userService;
 
+    @ApiOperation(value = "获取用户状态")
+    @PostMapping("status")
+    public Result getTaskByStatus(@RequestBody BaseQuery query) {
+        return ResultFactory.success();
+    }
+
     @ApiOperation(value = "获取用户的事项")
     @ResponseBody
     @PostMapping("get_task")
@@ -36,7 +43,6 @@ public class TaskController {
         if (!userService.checkUserIfExists(query.getUserId())) {
             throw ExceptionEnum.exception(ExceptionEnum.USER_NOT_EXIST);
         }
-//        System.out.println(query);
         List<TaskDTO> taskDTOs = new ArrayList<>();
         //有taskId带上就优先取单个事项
         if (query.getTaskId() != null) {
@@ -82,6 +88,12 @@ public class TaskController {
         return ResultFactory.success(taskDTOs);
     }
 
+    @ApiOperation(value = "获取当天事项")
+    @PostMapping("get/date")
+    public Result getTaskByDate(@RequestBody GetTaskQuery query) {
+        return ResultFactory.success(taskService.getTaskByDate(query.getDate(), query.getUserId()));
+    }
+
     @ApiOperation(value = "创建临时事项")
     @ResponseBody
     @PostMapping("create_temp_task")
@@ -110,7 +122,7 @@ public class TaskController {
     @ApiOperation(value = "更新周常事项")
     @ResponseBody
     @PostMapping("update_weekly_task")
-    public Result<edu.gdut.togethertime.model.dto.WeeklyTaskDTO> updateWeeklyTask(@RequestBody UpdateWeeklyTaskQuery query) {
+    public Result<WeeklyTaskDTO> updateWeeklyTask(@RequestBody UpdateWeeklyTaskQuery query) {
         WeeklyTask weeklyTask = taskService.updateWeeklyTask(query);
         return ResultFactory.success(edu.gdut.togethertime.model.dto.WeeklyTaskDTO.castToWeeklyTaskDTO(weeklyTask));
     }
@@ -137,5 +149,19 @@ public class TaskController {
         } else {
             return ResultFactory.success(taskService.completeTask(taskDTOInterface));
         }
+    }
+
+    @ApiOperation(value = "获取完成与未完成事项")
+    @ResponseBody
+    @PostMapping("get/fin_not")
+    public Result getCompleteAndNotCompleteTask(@RequestBody BaseQuery query) {
+        List<TaskDTO> taskDTOList = new ArrayList<>();
+        for (TempTask tempTask : taskService.getTempTaskListByUserId(query.getUserId())) {
+            taskDTOList.add(new TaskDTO(tempTask.getStatus(), tempTask));
+        }
+        for (WeeklyTask weeklyTask : taskService.getWeeklyTaskListByUserId(query.getUserId())) {
+            taskDTOList.add(new TaskDTO(weeklyTask.getStatus(), weeklyTask));
+        }
+        return ResultFactory.success(taskDTOList);
     }
 }

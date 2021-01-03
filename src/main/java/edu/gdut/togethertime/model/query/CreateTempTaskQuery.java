@@ -11,6 +11,8 @@ public class CreateTempTaskQuery extends BaseQuery {
     private Integer status;
     @ApiModelProperty(value = "重要程度：1-紧急重要，2-紧急不重要，3-重要不紧急，4-不紧急不重要", example = "1")
     private Integer level;
+    @ApiModelProperty(value = "是否私人：1-私人，2-公开", example = "1")
+    private Integer ifPrivate;
     @ApiModelProperty(value = "开始时间", example = "2020-12-25 10:10:10")
     private LocalDateTime startTime;
     @ApiModelProperty(value = "结束时间", example = "2020-12-25 12:12:12")
@@ -56,12 +58,21 @@ public class CreateTempTaskQuery extends BaseQuery {
         this.endTime = endTime;
     }
 
+    public Integer getIfPrivate() {
+        return ifPrivate;
+    }
+
+    public void setIfPrivate(Integer ifPrivate) {
+        this.ifPrivate = ifPrivate;
+    }
+
     @Override
     public String toString() {
         return "CreateTempTaskQuery{" +
                 "taskName='" + taskName + '\'' +
                 ", status=" + status +
                 ", level=" + level +
+                ", ifPrivate=" + ifPrivate +
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +
                 '}';

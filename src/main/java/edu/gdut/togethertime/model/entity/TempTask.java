@@ -9,6 +9,7 @@ public class TempTask implements TaskDTOInterface {
     private String taskName;
     private Integer status;
     private Integer level;
+    private Integer ifPrivate;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private LocalDateTime createTime;
@@ -38,6 +39,7 @@ public class TempTask implements TaskDTOInterface {
         private String taskName;
         private Integer status;
         private Integer level;
+        private Integer ifPrivate;
         private LocalDateTime startTime;
         private LocalDateTime endTime;
 
@@ -69,6 +71,10 @@ public class TempTask implements TaskDTOInterface {
             this.endTime = endTime;
             return this;
         }
+        public TempTaskBuilder ifPrivate(Integer ifPrivate) {
+            this.ifPrivate = ifPrivate;
+            return this;
+        }
     }
 
     public Long getId() {
@@ -94,6 +100,14 @@ public class TempTask implements TaskDTOInterface {
 
     public void setTaskId(Long taskId) {
         this.taskId = taskId;
+    }
+
+    public Integer getIfPrivate() {
+        return ifPrivate;
+    }
+
+    public void setIfPrivate(Integer ifPrivate) {
+        this.ifPrivate = ifPrivate;
     }
 
     public String getTaskName() {

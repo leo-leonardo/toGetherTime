@@ -8,6 +8,7 @@ import edu.gdut.togethertime.model.query.CreateWeeklyTaskQuery;
 import edu.gdut.togethertime.model.query.UpdateTempTaskQuery;
 import edu.gdut.togethertime.model.query.UpdateWeeklyTaskQuery;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface TaskService {
@@ -26,5 +27,9 @@ public interface TaskService {
     //common
     int deleteTaskByTaskId(Long taskId);
     TaskDTO completeTask(TaskDTOInterface taskDTOInterface);
+    List<TaskDTO> getAllTask();
 
+    List<TaskDTOInterface> getTaskByDate(LocalDate date, Long userId);
+
+    Integer expireTask();
 }

@@ -11,6 +11,8 @@ public class CreateWeeklyTaskQuery extends BaseQuery {
     private Integer status;
     @ApiModelProperty(value = "重要程度：1-紧急重要，2-紧急不重要，3-重要不紧急，4-不紧急不重要", example = "1")
     private Integer level;
+    @ApiModelProperty(value = "是否私人：1-私人，2-公开", example = "1")
+    private Integer ifPrivate;
     @ApiModelProperty(value = "星期", example = "1", allowableValues = "{1,2,3,4,5,6,7}")
     private Integer startDay;
     @ApiModelProperty(value = "时间", example = "10:10:10")
@@ -49,6 +51,14 @@ public class CreateWeeklyTaskQuery extends BaseQuery {
         this.startDay = startDay;
     }
 
+    public Integer getIfPrivate() {
+        return ifPrivate;
+    }
+
+    public void setIfPrivate(Integer ifPrivate) {
+        this.ifPrivate = ifPrivate;
+    }
+
     public LocalTime getStartTime() {
         return startTime;
     }
@@ -63,6 +73,7 @@ public class CreateWeeklyTaskQuery extends BaseQuery {
                 "taskName='" + taskName + '\'' +
                 ", status=" + status +
                 ", level=" + level +
+                ", ifPrivate=" + ifPrivate +
                 ", startDay=" + startDay +
                 ", startTime=" + startTime +
                 '}';

@@ -32,36 +32,35 @@ public class UserServiceImpl implements UserService {
 
         //2.作为参数请求给wx登录接口
         String url = String.format(WxConstant.LOGIN_URL, WxConstant.APPID, WxConstant.APP_SECRET, code);
-        System.out.println(url);
+//        System.out.println(url);
         String response = HttpUtils.get(url);
         System.out.println(response);
         JSONObject session = (JSONObject) JSONObject.parse(response);
 
         //3.设置登录态
         String openid = session.getString("openid");
-        String unionid = session.getString("unionid");
+        //没有多平台，不用unionId
+//        String unionid = session.getString("unionid");
 
         if (openid == null) {
             throw ExceptionEnum.exception(ExceptionEnum.PARAM_ERROR);
         }
         User user = null;
-        if (unionid != null) user = userMapper.selectUserByUnionId(unionid);
-        if (user == null) {
+//        if (unionid != null) user = userMapper.selectUserByUnionId(unionid);
+//        if (user == null) {
             //unionid找不到，用openid找
             user = userMapper.selectUserByOpenId(openid);
             if (user == null) {
                 //openid也找不到，注册
                 User newUser = new User();
                 newUser.setUsername(query.getUsername());
-                newUser.setUnionId(unionid);
+//                newUser.setUnionId(unionid);
                 newUser.setOpenId(openid);
                 newUser.setImgUrl(query.getImgUrl());
                 newUser.setLastLoginTime(LocalDateTime.now());
-                UserInfo userInfo = new UserInfo();
                 userMapper.registUser(newUser);
-                userInfo.setId(newUser.getId());
-
-                newUser = userMapper.selectUserByUnionId(unionid);
+                newUser = userMapper.selectUserByOpenId(openid);
+                userInfoMapper.insertUserInfo(newUser.getId());
                 return newUser;
             } else {
                 //openid找到了
@@ -70,13 +69,13 @@ public class UserServiceImpl implements UserService {
                 user.setImgUrl(query.getImgUrl());
                 userMapper.update(user);
             }
-        } else {
-            //unionid找到了
-            user.setLastLoginTime(LocalDateTime.now());
-            user.setUsername(query.getUsername());
-            user.setImgUrl(query.getImgUrl());
-            userMapper.update(user);
-        }
+//        } else {
+//            //unionid找到了
+//            user.setLastLoginTime(LocalDateTime.now());
+//            user.setUsername(query.getUsername());
+//            user.setImgUrl(query.getImgUrl());
+//            userMapper.update(user);
+//        }
         return user;
     }
 

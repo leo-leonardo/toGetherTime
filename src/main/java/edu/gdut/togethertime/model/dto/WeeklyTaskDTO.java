@@ -14,6 +14,8 @@ public class WeeklyTaskDTO {
     private String taskName;
     @ApiModelProperty(value = "星期", example = "1", allowableValues = "{1,2,3,4,5,6,7}")
     private Integer dayOfWeek;
+    @ApiModelProperty(value = "是否私人：1-私人，2-公开", example = "1")
+    private Integer ifPrivate;
     @ApiModelProperty(value = "时间", example = "10:10:10")
     private LocalTime time;
     @ApiModelProperty(value = "事项状态", example = "1")
@@ -28,6 +30,7 @@ public class WeeklyTaskDTO {
         weeklyTaskDTO.setTaskName(weeklyTask.getTaskName());
         weeklyTaskDTO.setDayOfWeek(weeklyTask.getStartDay());
         weeklyTaskDTO.setTime(weeklyTask.getStartTime());
+        weeklyTaskDTO.setIfPrivate(weeklyTask.getIfPrivate());
         weeklyTaskDTO.setStatus(weeklyTask.getStatus());
         weeklyTaskDTO.setLevel(weeklyTask.getLevel());
         return weeklyTaskDTO;
@@ -55,6 +58,14 @@ public class WeeklyTaskDTO {
 
     public void setTaskName(String taskName) {
         this.taskName = taskName;
+    }
+
+    public Integer getIfPrivate() {
+        return ifPrivate;
+    }
+
+    public void setIfPrivate(Integer ifPrivate) {
+        this.ifPrivate = ifPrivate;
     }
 
     public Integer getDayOfWeek() {
